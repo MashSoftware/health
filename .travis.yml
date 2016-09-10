@@ -1,0 +1,17 @@
+language: python
+python:
+- '2.7'
+install:
+- pip install -r requirements.txt
+script:
+- pip install -r requirements_test.txt
+- flake8 .
+deploy:
+  provider: heroku
+  api_key:
+    secure: rLow90mP90Es1kZ0jm/jiHGVloUJnGiJKcnjtCIn4IR2g8Ah/5v504b/APK5kDbrHgERCdoJxbQ8/ffHrBKxdwG4Q/oqsckjYhYG03vdkLJWBfp5Q1dW3KH0svnqiwxgk4G+ZxFyq/xST3ScGdnflfNMSFFRMCZ7Vwf5WpHuzl6JlV+nQ5b/9PMPMgDB1jakglLltMMmUymb6wo8X29BJf2jc5QgxlTHIb6f6mRueA2AT3vFK64AukHIcwoJwXDPivyt8vxd2Vq9Dprski2J3rHg309rTacxOpUh98hCrgOmPeumkquudPWoEzmFHyOKh6WTRCwjPTxygPDLhlj403d8fVvSAPlVlK2CD5NzZcMuOrofhyjz4kFM4fge5gF9AC79Lcy3Bk+bmdZs7cqvB3LdOMbC4IpVuzrlZD7/z+vybs7j07h4qdCHtpIyecIZVQDMhpZaC7AVhrpH90tzqJhbqg7IFQtFu0AFuxPPeHQGIFGUz3+L10TKcOdxF6vyh14ir3uynNt9Kz6jHRUl+Wqh6dDk+9Er3XPFyFazb3OVwpF925WG/o1xFQJxnflIlgXPY+6lrdHByPUAoI2KTRa9JXIhA+fOL3AegYYUOCc6K1sq3xChUMYqdDlvlcbjOCGhR9jKNVjYCthScA1j94xSW8FP1E+dITrxrMTJUdQ=
+  app:
+    master: mash-health
+  on:
+    repo: MashSoftware/health
+sudo: false
