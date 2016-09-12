@@ -2,52 +2,87 @@
 {% block content %}
 <br/>
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-4">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="list-group">
+            <div class="list-group-item">
+              <form class="form" action="/" method="get">
+                <div class="form-group">
+                  <label for="service">Service</label>
+                  <select name="type" id="service" class="form-control">
+                    <option value="hospitals">Hospitals</option>
+                    <option value="clinics">Clinics</option>
+                    <option value="social_care_locations">Social Care</option>
+                    <option value="pharmacies">Pharmacies</option>
+                    <option value="gp_surgeries">GP Surgeries</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input name="city" type="text" class="form-control" id="city" placeholder="City">
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-search fa-fw fa-lg"></i> Search</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% if type and city %}
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="list-group">
+            <div class="list-group-item">
+              <h5 class="list-group-item-heading">{{data.result|length}} {{type}} in {{city}}</h5>
+            </div>
+            {% for result in data.result|sort(attribute='organisation_name') %}
+            <div class="list-group-item">
+              <p class="lead">{{result.organisation_name}}</p>
+              <p><i class="fa fa-map-marker fa-fw" aria-hidden="true"></i> {% if result.address1 %}{{result.address1}},{% endif %} {% if result.address2 %}{{result.address2}},{% endif%} {% if result.address3 %}{{result.address3}},{% endif %} {% if result.city %}{{result.city}},{% endif %} {% if result.county %}{{result.county}},{% endif %} {% if result.postcode %}{{result.postcode}}{% endif %}</p>
+              {% if result.phone %}<p><i class="fa fa-phone fa-fw" aria-hidden="true"></i> <a href="tel:{{result.phone}}">{{result.phone}}</a></p>{% endif %}
+              {% if result.email %}<p><i class="fa fa-envelope-o fa-fw" aria-hidden="true"></i> <a href="mailto:{{result.email}}" target="_blank">{{result.email}}</a></p>{% endif %}
+              {% if result.website %}<p><i class="fa fa-globe fa-fw" aria-hidden="true"></i> <a href="{{result.website}}" target="_blank">{{result.website}}</a></p>{% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+  <div class="col-md-8">
     <div class="panel panel-default">
       <div class="list-group">
-        <div class="list-group-item">
-          <form class="form-inline" action="/" method="get">
-            <div class="form-group">
-              <label for="type">Find</label>
-              <select name="type" id="type" class="form-control">
-                <option value="hospitals">Hospitals</option>
-                <option value="clinics">Clinics</option>
-                <option value="social_care_locations">Social Care</option>
-                <option value="pharmacies">Pharmacies</option>
-                <option value="gp_surgeries">GP Surgeries</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="city">in</label>
-              <input name="city" type="text" class="form-control" id="city" placeholder="City">
-            </div>
-            <button type="submit" class="btn btn-primary"><i class="fa fa-search fa-fw fa-lg"></i> Search</button>
-          </form>
+        <div class="list-group-item" id="map" style="width: 100%; height: 600px">
+          <script>
+            var map = L.map('map').setView([54.525564, -3.921976], 5);
+
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+              attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors.'
+            }).addTo(map);
+
+            var myStyle = {
+              color: "#2196f3",
+              opacity: 1
+            };
+
+
+            var group = new L.featureGroup(
+              [
+              {% for result in data.result %}
+              L.marker([{{result.latitude}}, {{result.longitude}}]).addTo(map).bindPopup("{{result.organisation_name}}"),
+              {% endfor %}
+              ]
+            );
+
+            map.fitBounds(group.getBounds());
+          </script>
         </div>
       </div>
     </div>
   </div>
 </div>
-{% if type and city %}
-<div class="row">
-  <div class="col-md-12">
-    <div class="panel panel-default">
-      <div class="list-group">
-        <div class="list-group-item">
-          <h5 class="list-group-item-heading">{{type}} in {{city}}</h5>
-        </div>
-        {% for result in data.result|sort(attribute='organisation_name') %}
-        <div class="list-group-item">
-          <p class="lead">{{result.organisation_name}}</p>
-          <p><i class="fa fa-map-marker fa-fw" aria-hidden="true"></i> {% if result.address1 %}{{result.address1}},{% endif %} {% if result.address2 %}{{result.address2}},{% endif%} {% if result.address3 %}{{result.address3}},{% endif %} {% if result.city %}{{result.city}},{% endif %} {% if result.county %}{{result.county}},{% endif %} {% if result.postcode %}{{result.postcode}}{% endif %}</p>
-          {% if result.phone %}<p><i class="fa fa-phone fa-fw" aria-hidden="true"></i> <a href="tel:{{result.phone}}">{{result.phone}}</a></p>{% endif %}
-          {% if result.email %}<p><i class="fa fa-envelope-o fa-fw" aria-hidden="true"></i> <a href="mailto:{{result.email}}" target="_blank">{{result.email}}</a></p>{% endif %}
-          {% if result.website %}<p><i class="fa fa-globe fa-fw" aria-hidden="true"></i> <a href="{{result.website}}" target="_blank">{{result.website}}</a></p>{% endif %}
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</div>
-{% endif %}
 {% endblock %}
