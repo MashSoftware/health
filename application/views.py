@@ -2,20 +2,20 @@ from application import app, cache
 from flask import render_template, request
 from application.models import Healthcare
 
-health = Healthcare()
+healthcare = Healthcare()
 
 
 @app.route('/', methods=["GET"])
 def index():
-    type = request.args.get('type')
+    service = request.args.get('service')
     city = request.args.get('city')
-    data = health.find_by_city(type, city)
+    data = healthcare.find_by_city(service, city)
     title = 'Home'
     return render_template(
         'index.html',
         title=title,
         data=data,
-        type=type,
+        service=service,
         city=city
     )
 

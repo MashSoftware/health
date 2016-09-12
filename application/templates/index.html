@@ -11,7 +11,7 @@
               <form class="form" action="/" method="get">
                 <div class="form-group">
                   <label for="service">Service</label>
-                  <select name="type" id="service" class="form-control">
+                  <select name="service" id="service" class="form-control">
                     <option value="hospitals">Hospitals</option>
                     <option value="clinics">Clinics</option>
                     <option value="social_care_locations">Social Care</option>
@@ -30,13 +30,13 @@
         </div>
       </div>
     </div>
-    {% if type and city %}
+    {% if service and city %}
     <div class="row">
       <div class="col-md-12">
         <div class="panel panel-default">
           <div class="list-group">
             <div class="list-group-item">
-              <h5 class="list-group-item-heading">{{data.result|length}} {{type}} in {{city}}</h5>
+              <h5 class="list-group-item-heading">{{data.result|length}} {{service}} in {{city}}</h5>
             </div>
             {% for result in data.result|sort(attribute='organisation_name') %}
             <div class="list-group-item">
