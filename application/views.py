@@ -8,15 +8,28 @@ healthcare = Healthcare()
 @app.route('/', methods=["GET"])
 def index():
     service = request.args.get('service')
-    city = request.args.get('city')
-    data = healthcare.find_by_city(service, city)
+    data = {}
+    query = ''
+    if request.args.get('city'):
+        query = request.args.get('city')
+        data = healthcare.find_by_city(service, query)
+    elif request.args.get('name'):
+        query = request.args.get('name')
+        data = healthcare.find_by_name(service, query)
+    elif request.args.get('postcode'):
+        query = request.args.get('postcode')
+        data = healthcare.find_by_postcode(service, query)
+    elif request.args.get('county'):
+        query = request.args.get('county')
+        data = healthcare.find_by_county(service, query)
+
     title = 'Home'
     return render_template(
         'index.html',
         title=title,
         data=data,
         service=service,
-        city=city
+        query=query
     )
 
 
