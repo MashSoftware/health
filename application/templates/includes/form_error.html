@@ -4,7 +4,7 @@
   <ul>
     {% for field, errors in form.errors.items() %}
       {% for error in errors %}
-      <li><strong>{{ field }}:</strong> {{ error }}</li>
+      <li><strong>{{ field|capitalize }}:</strong> {{ error }}</li>
       {% endfor %}
     {% endfor %}
   </ul>
