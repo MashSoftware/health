@@ -9,7 +9,7 @@ class Healthcare(object):
         super(Healthcare, self).__init__()
         self.base_url = 'https://data.gov.uk/data/api/service/health'
 
-    @cache.memoize(timeout=3600)
+    @cache.memoize(timeout=86400)
     def find_by_name(self, service, name):
         url = '{0}/{1}/organisation_name?organisation_name={2}'
         response = requests.get(url.format(self.base_url, service, name))
@@ -19,7 +19,7 @@ class Healthcare(object):
             result = json.loads(response.text)
         return result
 
-    @cache.memoize(timeout=3600)
+    @cache.memoize(timeout=86400)
     def find_by_postcode(self, service, postcode):
         url = '{0}/{1}/partial_postcode?partial_postcode={2}'
         response = requests.get(url.format(self.base_url, service, postcode))
@@ -29,7 +29,7 @@ class Healthcare(object):
             result = json.loads(response.text)
         return result
 
-    @cache.memoize(timeout=3600)
+    @cache.memoize(timeout=86400)
     def find_by_city(self, service, city):
         url = '{0}/{1}?city={2}'
         response = requests.get(url.format(self.base_url, service, city))
@@ -39,7 +39,7 @@ class Healthcare(object):
             result = json.loads(response.text)
         return result
 
-    @cache.memoize(timeout=3600)
+    @cache.memoize(timeout=86400)
     def find_by_county(self, service, name):
         url = '{0}/{1}?county={2}'
         response = requests.get(url.format(self.base_url, service, name))
