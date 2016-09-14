@@ -1,6 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
 <br/>
+{% if form.errors%}
+<div class="alert alert-danger" role="alert">
+  <p>Please correct the following errors:</p>
+  <ul>
+    {% for field, errors in form.errors.items() %}
+      {% for error in errors %}
+      <li><strong>{{ field }}:</strong> {{ error }}</li>
+      {% endfor %}
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
 <div class="row">
   <div class="col-md-4">
     <div class="row">
@@ -8,47 +20,19 @@
         <div class="panel panel-default">
           <div class="list-group">
             <div class="list-group-item">
-              <form class="form" action="/" method="get">
-                <div class="form-group">
-                  <label for="service">Service</label>
-                  <select name="service" id="service" class="form-control">
-                    <option value="hospitals">Hospitals</option>
-                    <option value="clinics">Clinics</option>
-                    <option value="social_care_locations">Social Care</option>
-                    <option value="pharmacies">Pharmacies</option>
-                    <option value="gp_surgeries">GP Surgeries</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="Name">Name</label>
-                  <input name="name" type="text" class="form-control" id="name" placeholder="Name">
-                </div>
-                <div class="form-group">
-                  <label for="city">City</label>
-                  <input name="city" type="text" class="form-control" id="city" placeholder="City">
-                </div>
-                <div class="form-group">
-                  <label for="county">County</label>
-                  <input name="county" type="text" class="form-control" id="county" placeholder="County">
-                </div>
-                <div class="form-group">
-                  <label for="postcode">Postcode</label>
-                  <input name="postcode" type="text" class="form-control" id="postcode" placeholder="Postcode">
-                </div>
-                <button type="submit" class="btn btn-primary"><i class="fa fa-search fa-fw fa-lg"></i> Search</button>
-              </form>
+              {% include 'includes/search_form.html' %}
             </div>
           </div>
         </div>
       </div>
     </div>
-    {% if service and query %}
+    {% if data %}
     <div class="row">
       <div class="col-md-12">
-        <div class="panel panel-default">
+        <div class="panel panel-default" id="results">
           <div class="list-group">
             <div class="list-group-item">
-              <h5 class="list-group-item-heading">{% if data.result|length > 1 %}{{data.result|length}} results{% else %}{{data.result|length}} result{% endif %}</h5>
+              <h5 class="list-group-item-heading">{% if data.result|length == 1 %}{{data.result|length}} result{% else %}{{data.result|length}} results{% endif %}</h5>
             </div>
             {% for result in data.result|sort(attribute='organisation_name') %}
             <div class="list-group-item">
@@ -81,7 +65,7 @@
               opacity: 1
             };
 
-
+            {% if data %}
             var group = new L.featureGroup(
               [
               {% for result in data.result %}
@@ -91,6 +75,7 @@
             );
 
             map.fitBounds(group.getBounds());
+            {% endif %}
           </script>
         </div>
       </div>

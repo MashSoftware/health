@@ -1,0 +1,12 @@
+<form class="form-horizontal" action="/" method="post">
+  {{ form.csrf_token }}
+  {% for field in form if field.id != 'csrf_token' %}
+  <div class="form-group">
+    {{ field.label(class_="col-sm-3 control-label") }}
+    <div class="col-sm-9">
+      {{ field(class_="form-control") }}
+    </div>
+  </div>
+  {% endfor %}
+  <button type="submit" class="btn btn-primary"><i class="fa fa-search fa-fw fa-lg"></i> Search</button>
+</form>

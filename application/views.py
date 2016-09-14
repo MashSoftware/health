@@ -1,45 +1,49 @@
 from application import app, cache
-from flask import render_template, request
+from flask import render_template
 from application.models import Healthcare
+from application.forms import Search
 
 healthcare = Healthcare()
 
 
-@app.route('/', methods=["GET"])
+@app.route('/', methods=["GET", "POST"])
 def index():
-    service = request.args.get('service')
-    data = {}
-    query = ''
-    if request.args.get('city'):
-        query = request.args.get('city')
-        data = healthcare.find_by_city(service, query)
-    elif request.args.get('name'):
-        query = request.args.get('name')
-        data = healthcare.find_by_name(service, query)
-    elif request.args.get('postcode'):
-        query = request.args.get('postcode')
-        data = healthcare.find_by_postcode(service, query)
-    elif request.args.get('county'):
-        query = request.args.get('county')
-        data = healthcare.find_by_county(service, query)
+    form = Search()
+    if form.validate_on_submit():
+        service = form.service.data
+        data = {}
+        query = ''
+        if form.city.data:
+            query = form.city.data.strip().title()
+            data = healthcare.find_by_city(service, query)
+        elif form.name.data:
+            query = form.name.data.strip()
+            data = healthcare.find_by_name(service, query)
+        elif form.postcode.data:
+            query = form.postcode.data.strip().upper()
+            data = healthcare.find_by_postcode(service, query)
+        elif form.county.data:
+            query = form.county.data.strip().title()
+            data = healthcare.find_by_county(service, query)
 
-    title = 'Home'
+        return render_template(
+            'index.html',
+            data=data,
+            service=service,
+            query=query,
+            form=form
+        )
     return render_template(
         'index.html',
-        title=title,
-        data=data,
-        service=service,
-        query=query
+        form=form
     )
 
 
 @app.route('/about', methods=["GET"])
 @cache.cached(timeout=3600)
 def about():
-    title = 'About'
     return render_template(
-        'about.html',
-        title=title
+        'about.html'
     )
 
 
