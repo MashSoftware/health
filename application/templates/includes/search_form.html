@@ -1,7 +1,11 @@
 <form class="form-horizontal" action="/" method="post">
   {{ form.csrf_token }}
   {% for field in form if field.id != 'csrf_token' %}
-  <div class="form-group">
+    {% if field.errors %}
+    <div class="form-group has-error">
+    {% else %}
+    <div class="form-group">
+    {% endif %}
     {{ field.label(class_="col-sm-3 control-label") }}
     <div class="col-sm-9">
       {{ field(class_="form-control") }}

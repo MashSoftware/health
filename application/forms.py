@@ -1,6 +1,6 @@
 from flask_wtf import Form
 from wtforms import StringField, SelectField
-from wtforms.validators import DataRequired, Optional
+from wtforms.validators import DataRequired, Optional, Length
 
 
 class Search(Form):
@@ -12,4 +12,4 @@ class Search(Form):
     name = StringField('Name', validators=[Optional(strip_whitespace=True)])
     city = StringField('City', validators=[Optional(strip_whitespace=True)])
     county = StringField('County', validators=[Optional(strip_whitespace=True)])
-    postcode = StringField('Postcode', validators=[Optional(strip_whitespace=True)])
+    postcode = StringField('Postcode', validators=[Optional(strip_whitespace=True), Length(min=2, max=4)])
