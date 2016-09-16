@@ -12,4 +12,4 @@ class Search(Form):
     name = StringField('Name', validators=[Optional(strip_whitespace=True)])
     city = StringField('City', validators=[Optional(strip_whitespace=True)])
     county = StringField('County', validators=[Optional(strip_whitespace=True)])
-    postcode = StringField('Postcode', validators=[Optional(strip_whitespace=True), Length(min=2, max=4)])
+    postcode = StringField('Partial Postcode', validators=[Optional(strip_whitespace=True), Length(min=2, max=4)])
