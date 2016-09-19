@@ -41,21 +41,31 @@
     <div class="panel panel-default" style="height:calc(100vh - 95px);">
       <div class="panel-body" id="map" style="height:100%">
         <script>
-          var map = L.map('map').setView([54.525564, -3.921976], 5);
-
-          L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors.'
-          }).addTo(map);
+          var results = new L.featureGroup();
 
           {% if data %}
-          var group = new L.featureGroup([
-            {% for result in data.result %}
-            L.marker([{{result.latitude}}, {{result.longitude}}]).addTo(map).bindPopup("{{result.organisation_name}}"),
-            {% endfor %}
-          ]);
-
-          map.fitBounds(group.getBounds());
+          {% for result in data.result %}
+          L.marker([{{result.latitude}}, {{result.longitude}}]).bindPopup("{{result.organisation_name}}").addTo(results);
+          {% endfor %}
           {% endif %}
+
+          var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors.'
+          });
+
+      		var map = L.map('map', { layers: [osm, results] }).setView([54.525564, -3.921976], 5);
+
+          map.fitBounds(results.getBounds());
+
+      		var baseLayers = {
+      			"OpenStreetMap": osm
+      		};
+
+      		var overlays = {
+      			"Results": results
+      		};
+
+      		L.control.layers(baseLayers, overlays).addTo(map);
         </script>
       </div>
     </div>
