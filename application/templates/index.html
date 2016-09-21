@@ -45,7 +45,7 @@
 
           {% if data %}
           {% for result in data.result %}
-          L.marker([{{result.latitude}}, {{result.longitude}}]).bindPopup("{{result.organisation_name}}").addTo(results);
+          L.marker([{{result.latitude}}, {{result.longitude}}]).bindPopup("{{result.organisation_name}}").on('click', zoomToFeature).addTo(results);
           {% endfor %}
           {% endif %}
 
@@ -66,6 +66,10 @@
       		};
 
       		L.control.layers(baseLayers, overlays).addTo(map);
+
+          function zoomToFeature(e) {
+              map.setView(e.latlng, 16);
+          }
         </script>
       </div>
     </div>
