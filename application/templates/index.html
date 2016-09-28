@@ -15,7 +15,7 @@
       </div>
     </div>
     {% if data %}
-    <div class="row">
+    <div class="row" id="results">
       <div class="col-md-12">
         <div class="panel panel-default">
           <div class="list-group">
@@ -23,12 +23,12 @@
               <h5 class="list-group-item-heading">{% if data.result|length == 1 %}{{data.result|length}} result{% else %}{{data.result|length}} results{% endif %}</h5>
             </div>
             {% for result in data.result|sort(attribute='organisation_name') %}
-            <div class="list-group-item">
+            <div class="list-group-item" id="{{loop.index}}">
               <p class="lead">{{result.organisation_name}}</p>
               <p><i class="fa fa-map-marker fa-fw fa-lg" aria-hidden="true"></i> {% if result.address1 %}{{result.address1}},{% endif %} {% if result.address2 %}{{result.address2}},{% endif%} {% if result.address3 %}{{result.address3}},{% endif %} {% if result.city %}{{result.city}},{% endif %} {% if result.county %}{{result.county}},{% endif %} {% if result.postcode %}{{result.postcode}}{% endif %}</p>
               {% if result.phone %}<p><i class="fa fa-phone fa-fw fa-lg" aria-hidden="true"></i> <a href="tel:{{result.phone}}">{{result.phone}}</a></p>{% endif %}
-              {% if result.email %}<p><i class="fa fa-envelope-o fa-fw fa-lg" aria-hidden="true"></i> <a href="mailto:{{result.email}}" target="_blank">{{result.email}}</a></p>{% endif %}
-              {% if result.website %}<p><i class="fa fa-globe fa-fw fa-lg" aria-hidden="true"></i> {{result.website|urlize(40, false, target='_blank')}}</p>{% endif %}
+              {% if result.email %}<p style="word-wrap: break-word;"><i class="fa fa-envelope-o fa-fw fa-lg" aria-hidden="true"></i> <a href="mailto:{{result.email}}" target="_blank">{{result.email}}</a></p>{% endif %}
+              {% if result.website %}<p style="word-wrap: break-word;"><i class="fa fa-globe fa-fw fa-lg" aria-hidden="true"></i> <a href="{{result.website}}" target="_blank">{{result.website}}</a></p>{% endif %}
             </div>
             {% endfor %}
           </div>

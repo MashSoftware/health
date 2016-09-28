@@ -1,4 +1,4 @@
-<form class="form-horizontal" action="/" method="post">
+<form class="form-horizontal" action="/#results" method="post">
   {{ form.csrf_token }}
   {% for field in form if field.id != 'csrf_token' %}
     {% if field.errors %}
