@@ -1,7 +1,7 @@
 from application import app, cache
 from flask import render_template
 from application.models import Healthcare
-from application.forms import Search
+from application.forms import Search, SERVICES
 
 healthcare = Healthcare()
 
@@ -10,21 +10,21 @@ healthcare = Healthcare()
 def index():
     form = Search()
     if form.validate_on_submit():
-        service = form.service.data
+        service = dict(SERVICES).get(form.service.data)
         data = {}
         query = ''
         if form.city.data:
             query = form.city.data.strip().title()
-            data = healthcare.find_by_city(service, query)
+            data = healthcare.find_by_city(form.service.data, query)
         elif form.name.data:
             query = form.name.data.strip()
-            data = healthcare.find_by_name(service, query)
+            data = healthcare.find_by_name(form.service.data, query)
         elif form.postcode.data:
             query = form.postcode.data.strip().upper()
-            data = healthcare.find_by_postcode(service, query)
+            data = healthcare.find_by_postcode(form.service.data, query)
         elif form.county.data:
             query = form.county.data.strip().title()
-            data = healthcare.find_by_county(service, query)
+            data = healthcare.find_by_county(form.service.data, query)
 
         return render_template(
             'index.html',
