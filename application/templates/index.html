@@ -20,7 +20,7 @@
         <div class="panel panel-default">
           <div class="list-group">
             <div class="list-group-item">
-              <h5 class="list-group-item-heading">{% if data.result|length == 1 %}{{data.result|length}} result{% else %}{{data.result|length}} results{% endif %}</h5>
+              <h5 class="list-group-item-heading">{% if data.result|length == 1 %}Found {{data.result|length}} result for "{{query}}"{% else %}Found {{data.result|length}} results for "{{query}}"{% endif %}</h5>
             </div>
             {% for result in data.result|sort(attribute='organisation_name') %}
             <div class="list-group-item" id="{{loop.index}}">
