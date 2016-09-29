@@ -33,6 +33,7 @@ def index():
             query=query,
             form=form
         )
+
     return render_template(
         'index.html',
         form=form
