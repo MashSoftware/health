@@ -1,4 +1,4 @@
-from application import cache
+from application import cache, app
 import json
 import requests
 
@@ -18,8 +18,10 @@ class Healthcare(object):
         response = requests.get(url.format(self.base_url, service, name))
         if response.status_code != requests.codes.ok:
             response.raise_for_status()
+            app.logger.error('GET ' + response.url + ' ' + str(response.status_code))
         else:
             result = json.loads(response.text)
+            app.logger.info('GET ' + response.url + ' ' + str(response.status_code))
         return result
 
     @cache.memoize(timeout=86400)
@@ -31,8 +33,10 @@ class Healthcare(object):
         response = requests.get(url.format(self.base_url, service, postcode))
         if response.status_code != requests.codes.ok:
             response.raise_for_status()
+            app.logger.error('GET ' + response.url + ' ' + str(response.status_code))
         else:
             result = json.loads(response.text)
+            app.logger.info('GET ' + response.url + ' ' + str(response.status_code))
         return result
 
     @cache.memoize(timeout=86400)
@@ -41,8 +45,10 @@ class Healthcare(object):
         response = requests.get(url.format(self.base_url, service, city))
         if response.status_code != requests.codes.ok:
             response.raise_for_status()
+            app.logger.error('GET ' + response.url + ' ' + str(response.status_code))
         else:
             result = json.loads(response.text)
+            app.logger.info('GET ' + response.url + ' ' + str(response.status_code))
         return result
 
     @cache.memoize(timeout=86400)
@@ -51,6 +57,8 @@ class Healthcare(object):
         response = requests.get(url.format(self.base_url, service, name))
         if response.status_code != requests.codes.ok:
             response.raise_for_status()
+            app.logger.error('GET ' + response.url + ' ' + str(response.status_code))
         else:
             result = json.loads(response.text)
+            app.logger.info('GET ' + response.url + ' ' + str(response.status_code))
         return result
