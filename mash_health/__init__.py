@@ -24,4 +24,4 @@ cache = Cache(app,config={'CACHE_TYPE': 'simple'})
 # CSRF Protection
 CsrfProtect(app)
 
-import application.views
+import mash_health.views

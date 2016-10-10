@@ -1,7 +1,7 @@
-from application import app, cache
+from mash_health import app, cache
 from flask import render_template
-from application.models import Healthcare
-from application.forms import Search, SERVICES
+from mash_health.models import Healthcare
+from mash_health.forms import Search, SERVICES
 
 healthcare = Healthcare()
 

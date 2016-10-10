@@ -1,4 +1,4 @@
-from application import cache, app
+from mash_health import cache, app
 import json
 import requests
 
