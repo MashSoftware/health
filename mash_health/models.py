@@ -26,10 +26,8 @@ class Healthcare(object):
 
     @cache.memoize(timeout=86400)
     def find_by_postcode(self, service, postcode):
-        if service == 'gp_surgeries':
-            url = '{0}/{1}/partial_postcode?partial={2}'
-        else:
-            url = '{0}/{1}/partial_postcode?partial_postcode={2}'
+        url = '{0}/{1}/partial_postcode?partial_postcode={2}'
+
         response = requests.get(url.format(self.base_url, service, postcode))
         if response.status_code != requests.codes.ok:
             response.raise_for_status()
