@@ -22,9 +22,9 @@
             <div class="list-group-item">
               <h5 class="list-group-item-heading">{{data.result|length}} {{service}} {% if form.name.data %}named{% else %}in{% endif %} {{query}}</h5>
             </div>
-            {% for result in data.result|sort(attribute='organisation_name') %}
+            {% for result in data.result|sort(attribute='name') %}
             <div class="list-group-item" id="{{loop.index}}">
-              <p class="lead">{{result.organisation_name}}</p>
+              <p class="lead">{{result.name}}</p>
               <p><i class="fa fa-map-marker fa-fw fa-lg" aria-hidden="true"></i> {% if result.address1 %}{{result.address1}},{% endif %} {% if result.address2 %}{{result.address2}},{% endif%} {% if result.address3 %}{{result.address3}},{% endif %} {% if result.city %}{{result.city}},{% endif %} {% if result.county %}{{result.county}},{% endif %} {% if result.postcode %}{{result.postcode}}{% endif %}</p>
               {% if result.phone %}<p><i class="fa fa-phone fa-fw fa-lg" aria-hidden="true"></i> <a href="tel:{{result.phone}}">{{result.phone}}</a></p>{% endif %}
               {% if result.email %}<p style="word-wrap: break-word;"><i class="fa fa-envelope-o fa-fw fa-lg" aria-hidden="true"></i> <a href="mailto:{{result.email}}" target="_blank">{{result.email}}</a></p>{% endif %}
@@ -45,7 +45,7 @@
 
           {% if data %}
           {% for result in data.result %}
-          L.marker([{{result.latitude}}, {{result.longitude}}]).bindPopup("{{result.organisation_name}}").on('click', zoomToFeature).addTo(results);
+          L.marker([{{result.latitude}}, {{result.longitude}}]).bindPopup("{{result.name}}").on('click', zoomToFeature).addTo(results);
           {% endfor %}
           {% endif %}
 
