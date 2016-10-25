@@ -12,7 +12,6 @@ class Healthcare(object):
     @cache.memoize(timeout=86400)
     def find_by_name(self, service, name):
         url = '{0}/{1}/name?name={2}'
-
         response = requests.get(url.format(self.base_url, service, name))
         if response.status_code != requests.codes.ok:
             response.raise_for_status()
@@ -25,7 +24,6 @@ class Healthcare(object):
     @cache.memoize(timeout=86400)
     def find_by_postcode(self, service, postcode):
         url = '{0}/{1}/partial_postcode?partial_postcode={2}'
-
         response = requests.get(url.format(self.base_url, service, postcode))
         if response.status_code != requests.codes.ok:
             response.raise_for_status()
