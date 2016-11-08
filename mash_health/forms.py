@@ -1,4 +1,4 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField
 from wtforms.validators import DataRequired, Optional, Length
 
@@ -9,7 +9,7 @@ SERVICES = [('hospitals', 'Hospitals'),
             ('social_care_locations', 'Social Care Locations')]
 
 
-class Search(Form):
+class Search(FlaskForm):
     service = SelectField('Service', choices=SERVICES, validators=[DataRequired()])
     name = StringField('Name', validators=[Optional(strip_whitespace=True)])
     city = StringField('City', validators=[Optional(strip_whitespace=True)])
