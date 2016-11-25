@@ -12,5 +12,5 @@ export FLASK_DEBUG=1
 
 ## Running
 ```
-flask run
+python3 -m flask run
 ```
