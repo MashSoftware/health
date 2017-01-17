@@ -3,7 +3,7 @@ from flask import Flask
 from flask_assets import Environment, Bundle
 from flask_compress import Compress
 from flask_cache import Cache
-from flask_wtf.csrf import CsrfProtect
+from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
 
@@ -22,6 +22,6 @@ Compress(app)
 cache = Cache(app,config={'CACHE_TYPE': 'simple'})
 
 # CSRF Protection
-CsrfProtect(app)
+csrf = CSRFProtect(app)
 
 import mash_health.views

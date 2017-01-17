@@ -2,6 +2,7 @@ from mash_health import app, cache
 from flask import render_template
 from mash_health.models import Healthcare
 from mash_health.forms import Search, SERVICES
+from flask_wtf.csrf import CSRFError
 
 healthcare = Healthcare()
 
@@ -46,6 +47,11 @@ def about():
     return render_template(
         'about.html'
     )
+
+
+@app.errorhandler(CSRFError)
+def handle_csrf_error(error):
+    return render_template('error.html', error=error), 400
 
 
 @app.errorhandler(400)
