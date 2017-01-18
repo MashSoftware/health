@@ -5,7 +5,9 @@
 ## Getting Started
 
 ```
-export SECRET_KEY=<your_secret_key>
+pip3 install -r requirements.txt
+pip3 install -r requirements_test.txt
+export SECRET_KEY=your_secret_key
 export FLASK_APP=mash_health/__init__.py
 export FLASK_DEBUG=1
 ```
